@@ -41,6 +41,7 @@ add_library(yul
 	Utilities.h
 	YulControlFlowGraphExporter.h
 	YulControlFlowGraphExporter.cpp
+	YulName.cpp
 	YulName.h
 	YulString.h
 	backends/evm/AbstractAssembly.h
