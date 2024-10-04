@@ -22,6 +22,7 @@
  */
 
 #include <libsolidity/analysis/TypeChecker.h>
+#include <libsolidity/analysis/ConstantEvaluator.h>
 #include <libsolidity/ast/AST.h>
 #include <libsolidity/ast/ASTUtils.h>
 #include <libsolidity/ast/UserDefinableOperators.h>
@@ -46,6 +47,7 @@
 #include <range/v3/algorithm/count_if.hpp>
 #include <range/v3/view/drop_exactly.hpp>
 #include <range/v3/view/enumerate.hpp>
+#include <range/v3/view/reverse.hpp>
 #include <range/v3/view/zip.hpp>
 
 #include <memory>
@@ -232,6 +234,87 @@ TypePointers TypeChecker::typeCheckMetaTypeFunctionAndRetrieveReturnType(Functio
 bool TypeChecker::visit(ImportDirective const&)
 {
 	return false;
+}
+
+void TypeChecker::endVisit(ContractDefinition const& _contract)
+{
+	for (auto const* ancestorContract: _contract.annotation().linearizedBaseContracts | ranges::views::reverse)
+		if (*ancestorContract != _contract && ancestorContract->storageLayoutSpecifier())
+		{
+			m_errorReporter.typeError(
+				8894_error,
+				_contract.location(),
+				SecondarySourceLocation().append(
+					"Storage base location was already specified here.",
+					ancestorContract->storageLayoutSpecifier()->location()
+				),
+				"Storage base location can only be specified in the most derived contract."
+			);
+			return;
+		}
+
+	if ((_contract.isLibrary() || _contract.abstract()) && _contract.storageLayoutSpecifier())
+	m_errorReporter.typeError(
+		7587_error,
+		_contract.storageLayoutSpecifier()->location(),
+		"Storage base location cannot be specified for abstract contracts or libraries"
+	);
+}
+
+void TypeChecker::endVisit(StorageLayoutSpecifier const& _storageLayoutSpecifier)
+{
+	ASTPointer<Expression> const baseLocation = _storageLayoutSpecifier.expression();
+
+	if (!*baseLocation->annotation().isPure)
+	{
+		// TODO: handle erc7201 as a builtin function ?
+		if (auto functionCall = dynamic_cast<FunctionCall const*>(baseLocation.get()))
+			if (
+				auto const* identifier = dynamic_cast<Identifier const*>(&functionCall->expression());
+				identifier && identifier->name() == "erc7201"
+			)
+				return;
+
+		m_errorReporter.typeError(
+			1139_error,
+			baseLocation->location(),
+			"The contract base location must be an expression that can be evaluated at compilation time."
+		);
+	}
+
+	auto const* expressionType = type(*baseLocation);
+	BoolResult result = expressionType->isImplicitlyConvertibleTo(*TypeProvider::uint256());
+	if (!result)
+	{
+		std::string errorMessage = "Contract storage base location ";
+		if (
+			auto const* rationalType = dynamic_cast<RationalNumberType const*>(expressionType);
+			rationalType && rationalType->isFractional()
+		)
+			errorMessage += "cannot be specified by a fractional number.";
+		else
+			errorMessage += "must be in range of type uint256. Current type is " + expressionType->humanReadableName();
+
+		m_errorReporter.typeErrorConcatenateDescriptions(
+			1763_error,
+			baseLocation->location(),
+			errorMessage,
+			result.message()
+		);
+		return;
+	}
+
+	if (auto const* rationalType = dynamic_cast<RationalNumberType const*>(expressionType))
+	{
+		solAssert(!rationalType->isFractional());
+		_storageLayoutSpecifier.annotation().value = u256(rationalType->value().numerator());
+	}
+	else
+		m_errorReporter.typeError(
+			6396_error,
+			baseLocation->location(),
+			"Only number literals are accepted in the expression specifying the contract base storage location."
+		);
 }
 
 void TypeChecker::endVisit(InheritanceSpecifier const& _inheritance)
