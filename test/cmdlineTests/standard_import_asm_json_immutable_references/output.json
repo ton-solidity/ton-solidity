@@ -8,7 +8,16 @@
                         "linkReferences": {},
                         "object": "<BYTECODE REMOVED>",
                         "opcodes":"<OPCODES REMOVED>",
-                        "sourceMap":"<SOURCEMAP REMOVED>"
+                        "sourceMap":"<SOURCEMAP REMOVED>",
+                        "subAssemblyOffsets": {
+                            "subs": [
+                                {
+                                    "isCreation": false,
+                                    "length": 87,
+                                    "start": 0
+                                }
+                            ]
+                        }
                     },
                     "deployedBytecode": {
                         "functionDebugData": {},

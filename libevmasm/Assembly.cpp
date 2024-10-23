@@ -1203,6 +1203,7 @@ LinkerObject const& Assembly::assembleLegacy() const
 
 	size_t subTagSize = 1;
 	std::map<u256, LinkerObject::ImmutableRefs> immutableReferencesBySub;
+	std::vector<LinkerObject> subAssemblies;
 	for (auto const& sub: m_subs)
 	{
 		auto const& linkerObject = sub->assemble();
@@ -1215,6 +1216,7 @@ LinkerObject const& Assembly::assembleLegacy() const
 			);
 			immutableReferencesBySub = linkerObject.immutableReferences;
 		}
+		subAssemblies.push_back(linkerObject);
 		for (size_t tagPos: sub->m_tagPositionsInBytecode)
 			if (tagPos != std::numeric_limits<size_t>::max() && numberEncodingSize(tagPos) > subTagSize)
 				subTagSize = numberEncodingSize(tagPos);
@@ -1465,6 +1467,16 @@ LinkerObject const& Assembly::assembleLegacy() const
 		bytesRef r(ret.bytecode.data() + pos, bytesPerDataRef);
 		toBigEndian(ret.bytecode.size(), r);
 	}
+
+	std::vector<LinkerObject::SubAssembly> nestedSubAssemblies{};
+	for (auto const& subAssembly: subAssemblies)
+		nestedSubAssemblies.insert(nestedSubAssemblies.end(), subAssembly.subAssemblyData.begin(), subAssembly.subAssemblyData.end());
+
+	size_t const currentBytecodeSize = ret.bytecode.size();
+	updateSubAssemblyStartOffsets(nestedSubAssemblies, currentBytecodeSize);
+
+	ret.subAssemblyData.push_back({0, ret.bytecode.size(), isCreation(), ret.toHex(), nestedSubAssemblies});
+
 	return ret;
 }
 
@@ -1775,4 +1787,13 @@ Assembly::OptimiserSettings Assembly::OptimiserSettings::translateSettings(front
 	asmSettings.expectedExecutionsPerDeployment = _settings.expectedExecutionsPerDeployment;
 	asmSettings.evmVersion = _evmVersion;
 	return asmSettings;
+}
+
+void Assembly::updateSubAssemblyStartOffsets(std::vector<LinkerObject::SubAssembly>& _subAssemblies, size_t const _currentBytecodeSize) const
+{
+	for (auto& subAssembly: _subAssemblies)
+	{
+		subAssembly.start = _currentBytecodeSize - subAssembly.length;
+		updateSubAssemblyStartOffsets(subAssembly.subs, _currentBytecodeSize);
+	}
 }

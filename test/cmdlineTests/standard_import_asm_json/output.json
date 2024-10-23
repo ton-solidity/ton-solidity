@@ -11,7 +11,10 @@
                         "linkReferences": {},
                         "object": "<BYTECODE REMOVED>",
                         "opcodes":"<OPCODES REMOVED>",
-                        "sourceMap":"<SOURCEMAP REMOVED>"
+                        "sourceMap":"<SOURCEMAP REMOVED>",
+                        "subAssemblyOffsets": {
+                            "subs": []
+                        }
                     },
                     "deployedBytecode": {
                         "functionDebugData": {},
