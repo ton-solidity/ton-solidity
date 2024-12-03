@@ -5,6 +5,4 @@ function erc7201(bytes memory id) pure returns (uint256) {
     );
 }
 contract C layout at erc7201("C") { }
-// ====
-// stopAfter: parsing
 // ----
