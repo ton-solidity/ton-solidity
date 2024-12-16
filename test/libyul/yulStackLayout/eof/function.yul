@@ -21,7 +21,7 @@
     g()
 }
 // ====
-// bytecodeFormat: legacy
+// bytecodeFormat: >=EOFv1
 // ----
 // digraph CFG {
 // nodesep=0.7;
@@ -31,7 +31,7 @@
 // Entry -> Block0;
 // Block0 [label="\
 // [ ]\l\
-// [ RET[i] ]\l\
+// [ ]\l\
 // i\l\
 // [ TMP[i, 0] TMP[i, 1] ]\l\
 // [ TMP[i, 0] TMP[i, 1] ]\l\
@@ -49,20 +49,20 @@
 // [ RET b a ]"];
 // FunctionEntry_f -> Block1;
 // Block1 [label="\
-// [ RET a b ]\l\
-// [ RET a b a ]\l\
+// [ a b ]\l\
+// [ a b a ]\l\
 // add\l\
-// [ RET a TMP[add, 0] ]\l\
-// [ RET a TMP[add, 0] ]\l\
+// [ a TMP[add, 0] ]\l\
+// [ a TMP[add, 0] ]\l\
 // Assignment(x)\l\
-// [ RET a x ]\l\
-// [ RET a x ]\l\
+// [ a x ]\l\
+// [ a x ]\l\
 // sub\l\
-// [ RET TMP[sub, 0] ]\l\
-// [ RET TMP[sub, 0] ]\l\
+// [ TMP[sub, 0] ]\l\
+// [ TMP[sub, 0] ]\l\
 // Assignment(r)\l\
-// [ RET r ]\l\
-// [ r RET ]\l\
+// [ r ]\l\
+// [ r ]\l\
 // "];
 // Block1Exit [label="FunctionReturn[f]"];
 // Block1 -> Block1Exit;
@@ -71,8 +71,8 @@
 // [ RET x ]"];
 // FunctionEntry_h -> Block2;
 // Block2 [label="\
-// [ RET[f] 0x00 x ]\l\
-// [ RET[f] 0x00 x ]\l\
+// [ 0x00 x ]\l\
+// [ 0x00 x ]\l\
 // f\l\
 // [ TMP[f, 0] ]\l\
 // [ TMP[f, 0] ]\l\
@@ -87,14 +87,14 @@
 // [ RET ]"];
 // FunctionEntry_i -> Block3;
 // Block3 [label="\
-// [ RET ]\l\
-// [ RET 0x0202 ]\l\
+// [ ]\l\
+// [ 0x0202 ]\l\
 // Assignment(v)\l\
-// [ RET v ]\l\
-// [ v RET 0x0303 ]\l\
+// [ v ]\l\
+// [ v 0x0303 ]\l\
 // Assignment(w)\l\
-// [ v RET w ]\l\
-// [ v w RET ]\l\
+// [ v w ]\l\
+// [ v w ]\l\
 // "];
 // Block3Exit [label="FunctionReturn[i]"];
 // Block3 -> Block3Exit;
