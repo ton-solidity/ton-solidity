@@ -548,12 +548,14 @@ std::variant<OptimiserSettings, Json> parseOptimizerSettings(Json const& _jsonIn
 
 	OptimiserSettings settings = OptimiserSettings::minimal();
 
+	bool optimizerEnabled = false;
 	if (_jsonInput.contains("enabled"))
 	{
 		if (!_jsonInput["enabled"].is_boolean())
 			return formatFatalError(Error::Type::JSONError, "The \"enabled\" setting must be a Boolean.");
 
-		if (_jsonInput["enabled"].get<bool>())
+		optimizerEnabled = _jsonInput["enabled"].get<bool>();
+		if (optimizerEnabled)
 			settings = OptimiserSettings::standard();
 	}
 
@@ -588,7 +590,10 @@ std::variant<OptimiserSettings, Json> parseOptimizerSettings(Json const& _jsonIn
 			return *error;
 		if (auto error = checkOptimizerDetail(details, "simpleCounterForLoopUncheckedIncrement", settings.simpleCounterForLoopUncheckedIncrement))
 			return *error;
-		settings.optimizeStackAllocation = settings.runYulOptimiser;
+
+		if (optimizerEnabled || settings.runYulOptimiser)
+			settings.optimizeStackAllocation = true;
+
 		if (details.contains("yulDetails"))
 		{
 			if (!settings.runYulOptimiser)
