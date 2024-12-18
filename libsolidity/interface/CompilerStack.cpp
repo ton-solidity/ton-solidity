@@ -1736,13 +1736,12 @@ std::string CompilerStack::createMetadata(Contract const& _contract, bool _forIR
 		}
 		else if (OptimiserSuite::isEmptyOptimizerSequence(m_optimiserSettings.yulOptimiserSteps + ":" + m_optimiserSettings.yulOptimiserCleanupSteps))
 		{
-			solAssert(m_optimiserSettings.optimizeStackAllocation == false);
 			details["yulDetails"] = Json::object();
+			details["yulDetails"]["stackAllocation"] = m_optimiserSettings.optimizeStackAllocation;
 			details["yulDetails"]["optimizerSteps"] = ":";
 		}
 		else
 		{
-			solAssert(m_optimiserSettings.optimizeStackAllocation == false);
 			solAssert(m_optimiserSettings.yulOptimiserSteps == OptimiserSettings::DefaultYulOptimiserSteps);
 			solAssert(m_optimiserSettings.yulOptimiserCleanupSteps == OptimiserSettings::DefaultYulOptimiserCleanupSteps);
 		}

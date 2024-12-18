@@ -1,0 +1,17 @@
+{
+	"language": "Solidity",
+	"sources": {
+		"A": {"urls": ["standard_metadata_optimizer_no_yul/in.sol"]}
+	},
+	"settings": {
+		"optimizer": {
+			"enabled": true,
+			"details": {
+				"yul": false
+			}
+		},
+		"outputSelection": {
+			"*": {"*": ["metadata"]}
+		}
+	}
+}

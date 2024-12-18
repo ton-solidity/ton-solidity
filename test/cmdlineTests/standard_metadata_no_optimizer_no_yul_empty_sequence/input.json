@@ -1,0 +1,20 @@
+{
+	"language": "Solidity",
+	"sources": {
+		"A": {"urls": ["standard_metadata_no_optimizer_no_yul_empty_sequence/in.sol"]}
+	},
+	"settings": {
+		"optimizer": {
+			"enabled": false,
+			"details": {
+				"yul": false,
+				"yulDetails": {
+					"optimizerSteps": ":"
+				}
+			}
+		},
+		"outputSelection": {
+			"*": {"*": ["metadata"]}
+		}
+	}
+}

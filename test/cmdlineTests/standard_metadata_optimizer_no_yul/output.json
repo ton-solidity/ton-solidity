@@ -1,0 +1,14 @@
+{
+    "contracts": {
+        "A": {
+            "C": {
+                "metadata": "{\"compiler\":{\"version\":\"<VERSION REMOVED>\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"f\",\"outputs\":[],\"stateMutability\":\"pure\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"A\":\"C\"},\"evmVersion\":\"cancun\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"details\":{\"constantOptimizer\":true,\"cse\":true,\"deduplicate\":true,\"inliner\":true,\"jumpdestRemover\":true,\"orderLiterals\":true,\"peephole\":true,\"simpleCounterForLoopUncheckedIncrement\":true,\"yul\":false},\"runs\":200},\"remappings\":[]},\"sources\":{\"A\":{\"keccak256\":\"0xadb715fb333a8148b6c34d75ffa489e541cf67b9539db523c0948564d2a8cbf1\",\"license\":\"GPL-3.0\",\"urls\":[\"bzz-raw://226f3b9be90a1b9329f7d01771fdf38e941b8e64a977945ad40300e921d99051\",\"dweb:/ipfs/QmdB5oEAJrLUJFVPEv5nGQzKRU1MnrqEgEGKupdpDVDzgN\"]}},\"version\":1}"
+            }
+        }
+    },
+    "sources": {
+        "A": {
+            "id": 0
+        }
+    }
+}
