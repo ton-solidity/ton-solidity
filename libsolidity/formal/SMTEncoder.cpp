@@ -3271,6 +3271,14 @@ void SMTEncoder::createFreeConstants(std::set<SourceUnit const*, ASTNode::Compar
 				}
 }
 
+void SMTEncoder::createStateVariables(std::set<SourceUnit const*, ASTNode::CompareByID> const& _sources)
+{
+	for (auto const& source: _sources)
+		for (auto const& node: source->nodes())
+			if (auto contract = dynamic_cast<ContractDefinition const*>(node.get()))
+				createStateVariables(*contract);
+}
+
 smt::SymbolicState& SMTEncoder::state()
 {
 	return m_context.state();

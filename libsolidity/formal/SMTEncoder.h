@@ -439,6 +439,9 @@ protected:
 	/// Create symbolic variables for the free constants in all @param _sources.
 	void createFreeConstants(std::set<SourceUnit const*, ASTNode::CompareByID> const& _sources);
 
+	/// Create symbolic variables for all state variables for all contracts in all @param _sources.
+	void createStateVariables(std::set<SourceUnit const*, ASTNode::CompareByID> const& _sources);
+
 	/// @returns a note to be added to warnings.
 	std::string extraComment();
 

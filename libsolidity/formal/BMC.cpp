@@ -93,7 +93,9 @@ void BMC::analyze(SourceUnit const& _source, std::map<ASTNode const*, std::set<V
 	m_context.reset();
 	m_context.setAssertionAccumulation(true);
 	m_variableUsage.setFunctionInlining(shouldInlineFunctionCall);
-	createFreeConstants(sourceDependencies(_source));
+	auto const& sources = sourceDependencies(_source);
+	createFreeConstants(sources);
+	createStateVariables(sources);
 	m_unprovedAmt = 0;
 
 	_source.accept(*this);
