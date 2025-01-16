@@ -1204,6 +1204,9 @@ std::variant<StandardCompiler::InputsAndSettings, Json> StandardCompiler::parseI
 	)
 		return formatFatalError(Error::Type::FatalError, "'settings.debug.debugInfo' can only include 'ethdebug', if output 'ir', 'irOptimized', 'evm.bytecode.ethdebug', or 'evm.deployedBytecode.ethdebug' was selected.");
 
+	if (isEthdebugRequested(ret.outputSelection) && (ret.optimiserSettings.runYulOptimiser || isArtifactRequested(ret.outputSelection, "*", "*", "irOptimized", false)))
+		return formatFatalError(Error::Type::FatalError, "Optimization is not yet supported with ethdebug.");
+
 	return {std::move(ret)};
 }
 

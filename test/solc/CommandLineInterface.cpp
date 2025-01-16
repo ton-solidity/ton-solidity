@@ -1431,15 +1431,23 @@ BOOST_AUTO_TEST_CASE(cli_ethdebug_incompatible_outputs)
 		},
 		{
 			{"solc", "--via-ir", "--ethdebug",  "--asm-json", tempDir.path().string() + "/input.sol"},
-			"Error: --ethdebug / --ethdebug-runtime output can only be used with --ir / --ir-optimized.\n"
+			"Error: --ethdebug / --ethdebug-runtime output can only be used with --ir. Optimization is not yet supported with ethdebug, e.g. no support for --optimize / --ir-optimized yet.\n"
+		},
+		{
+			{"solc", "--via-ir", "--ethdebug",  "--optimize", tempDir.path().string() + "/input.sol"},
+			"Error: --ethdebug / --ethdebug-runtime output can only be used with --ir. Optimization is not yet supported with ethdebug, e.g. no support for --optimize / --ir-optimized yet.\n"
+		},
+		{
+			{"solc", "--via-ir", "--ethdebug",  "--ir-optimized", tempDir.path().string() + "/input.sol"},
+			"Error: --ethdebug / --ethdebug-runtime output can only be used with --ir. Optimization is not yet supported with ethdebug, e.g. no support for --optimize / --ir-optimized yet.\n"
 		},
 		{
 			{"solc", "--via-ir", "--ethdebug",  "--ir-ast-json", tempDir.path().string() + "/input.sol"},
-			"Error: --ethdebug / --ethdebug-runtime output can only be used with --ir / --ir-optimized.\n"
+			"Error: --ethdebug / --ethdebug-runtime output can only be used with --ir. Optimization is not yet supported with ethdebug, e.g. no support for --optimize / --ir-optimized yet.\n"
 		},
 		{
 			{"solc", "--via-ir", "--ethdebug",  "--ir-optimized-ast-json", tempDir.path().string() + "/input.sol"},
-			"Error: --ethdebug / --ethdebug-runtime output can only be used with --ir / --ir-optimized.\n"
+			"Error: --ethdebug / --ethdebug-runtime output can only be used with --ir. Optimization is not yet supported with ethdebug, e.g. no support for --optimize / --ir-optimized yet.\n"
 		},
 		{
 			{"solc", "--ethdebug", "--import-asm-json", tempDir.path().string() + "/input.json"},
@@ -1447,7 +1455,7 @@ BOOST_AUTO_TEST_CASE(cli_ethdebug_incompatible_outputs)
 		},
 		{
 			{"solc", "--via-ir", "--ethdebug",  "--asm-json", tempDir.path().string() + "/input.sol"},
-			"Error: --ethdebug / --ethdebug-runtime output can only be used with --ir / --ir-optimized.\n"
+			"Error: --ethdebug / --ethdebug-runtime output can only be used with --ir. Optimization is not yet supported with ethdebug, e.g. no support for --optimize / --ir-optimized yet.\n"
 		},
 		{
 			{"solc", "--ethdebug-runtime",  "--asm-json", tempDir.path().string() + "/input.sol"},
@@ -1455,15 +1463,15 @@ BOOST_AUTO_TEST_CASE(cli_ethdebug_incompatible_outputs)
 		},
 		{
 			{"solc", "--via-ir", "--ethdebug-runtime",  "--asm-json", tempDir.path().string() + "/input.sol"},
-			"Error: --ethdebug / --ethdebug-runtime output can only be used with --ir / --ir-optimized.\n"
+			"Error: --ethdebug / --ethdebug-runtime output can only be used with --ir. Optimization is not yet supported with ethdebug, e.g. no support for --optimize / --ir-optimized yet.\n"
 		},
 		{
 			{"solc", "--via-ir", "--ethdebug-runtime",  "--ir-ast-json", tempDir.path().string() + "/input.sol"},
-			"Error: --ethdebug / --ethdebug-runtime output can only be used with --ir / --ir-optimized.\n"
+			"Error: --ethdebug / --ethdebug-runtime output can only be used with --ir. Optimization is not yet supported with ethdebug, e.g. no support for --optimize / --ir-optimized yet.\n"
 		},
 		{
 			{"solc", "--via-ir", "--ethdebug-runtime",  "--ir-optimized-ast-json", tempDir.path().string() + "/input.sol"},
-			"Error: --ethdebug / --ethdebug-runtime output can only be used with --ir / --ir-optimized.\n"
+			"Error: --ethdebug / --ethdebug-runtime output can only be used with --ir. Optimization is not yet supported with ethdebug, e.g. no support for --optimize / --ir-optimized yet.\n"
 		},
 		{
 			{"solc", "--ethdebug-runtime", "--import-asm-json", tempDir.path().string() + "/input.json"},
@@ -1471,23 +1479,23 @@ BOOST_AUTO_TEST_CASE(cli_ethdebug_incompatible_outputs)
 		},
 		{
 			{"solc", "--via-ir", "--ethdebug-runtime",  "--asm-json", tempDir.path().string() + "/input.sol"},
-			"Error: --ethdebug / --ethdebug-runtime output can only be used with --ir / --ir-optimized.\n"
+			"Error: --ethdebug / --ethdebug-runtime output can only be used with --ir. Optimization is not yet supported with ethdebug, e.g. no support for --optimize / --ir-optimized yet.\n"
 		},
 		{
 			{"solc", "--debug-info", "ethdebug",  "--asm-json", tempDir.path().string() + "/input.sol"},
-			"Error: --debug-info ethdebug can only be used with --ir / --ir-optimized and/or --ethdebug / --ethdebug-runtime.\n"
+			"Error: --debug-info ethdebug can only be used with --ir and/or --ethdebug / --ethdebug-runtime. Optimization is not yet supported with ethdebug, e.g. no support for --optimize / --ir-optimized yet.\n"
 		},
 		{
 			{"solc", "--debug-info", "ethdebug",  "--asm-json", tempDir.path().string() + "/input.sol"},
-			"Error: --debug-info ethdebug can only be used with --ir / --ir-optimized and/or --ethdebug / --ethdebug-runtime.\n"
+			"Error: --debug-info ethdebug can only be used with --ir and/or --ethdebug / --ethdebug-runtime. Optimization is not yet supported with ethdebug, e.g. no support for --optimize / --ir-optimized yet.\n"
 		},
 		{
 			{"solc", "--debug-info", "ethdebug",  "--ir-ast-json", tempDir.path().string() + "/input.sol"},
-			"Error: --debug-info ethdebug can only be used with --ir / --ir-optimized and/or --ethdebug / --ethdebug-runtime.\n"
+			"Error: --debug-info ethdebug can only be used with --ir and/or --ethdebug / --ethdebug-runtime. Optimization is not yet supported with ethdebug, e.g. no support for --optimize / --ir-optimized yet.\n"
 		},
 		{
 			{"solc", "--debug-info", "ethdebug",  "--ir-optimized-ast-json", tempDir.path().string() + "/input.sol"},
-			"Error: --debug-info ethdebug can only be used with --ir / --ir-optimized and/or --ethdebug / --ethdebug-runtime.\n"
+			"Error: --debug-info ethdebug can only be used with --ir and/or --ethdebug / --ethdebug-runtime. Optimization is not yet supported with ethdebug, e.g. no support for --optimize / --ir-optimized yet.\n"
 		},
 		{
 			{"solc", "--debug-info", "ethdebug", "--import-asm-json", tempDir.path().string() + "/input.json"},
@@ -1499,7 +1507,7 @@ BOOST_AUTO_TEST_CASE(cli_ethdebug_incompatible_outputs)
 		},
 		{
 			{"solc", "--debug-info", "ethdebug", "--asm-json", tempDir.path().string() + "/input.json"},
-			"Error: --debug-info ethdebug can only be used with --ir / --ir-optimized and/or --ethdebug / --ethdebug-runtime.\n"
+			"Error: --debug-info ethdebug can only be used with --ir and/or --ethdebug / --ethdebug-runtime. Optimization is not yet supported with ethdebug, e.g. no support for --optimize / --ir-optimized yet.\n"
 		}
 	};
 	for (auto const& test: tests)
@@ -1560,7 +1568,7 @@ BOOST_AUTO_TEST_CASE(cli_ethdebug_debug_info_ethdebug)
 	static std::vector<std::tuple<std::vector<std::string>, std::vector<std::string>, std::vector<std::string>>> tests{
 		{
 			{"solc", "--debug-info", "ethdebug", tempDir.path().string() + "/input.sol"},
-			{"Error: --debug-info ethdebug can only be used with --ir / --ir-optimized and/or --ethdebug / --ethdebug-runtime.\n"},
+			{"Error: --debug-info ethdebug can only be used with --ir and/or --ethdebug / --ethdebug-runtime. Optimization is not yet supported with ethdebug, e.g. no support for --optimize / --ir-optimized yet.\n"},
 			{},
 		},
 		{
@@ -1570,8 +1578,13 @@ BOOST_AUTO_TEST_CASE(cli_ethdebug_debug_info_ethdebug)
 		},
 		{
 			{"solc", "--debug-info", "ethdebug", "--ir-optimized", tempDir.path().string() + "/input.sol"},
+			{"Error: --debug-info ethdebug can only be used with --ir and/or --ethdebug / --ethdebug-runtime. Optimization is not yet supported with ethdebug, e.g. no support for --optimize / --ir-optimized yet.\n"},
 			{},
-			{"/// ethdebug: enabled"},
+		},
+		{
+			{"solc", "--debug-info", "ethdebug", "--optimize", tempDir.path().string() + "/input.sol"},
+			{"Error: --debug-info ethdebug can only be used with --ir and/or --ethdebug / --ethdebug-runtime. Optimization is not yet supported with ethdebug, e.g. no support for --optimize / --ir-optimized yet.\n"},
+			{},
 		},
 		{
 			{"solc", "--debug-info", "ethdebug", "--ethdebug", tempDir.path().string() + "/input.sol"},
@@ -1722,33 +1735,33 @@ BOOST_AUTO_TEST_CASE(cli_ethdebug_ethdebug_output)
 		},
 		{
 			{"solc", "--ethdebug", "--via-ir", "--ir-optimized", tempDir.path().string() + "/input.sol"},
+			{"Error: --ethdebug / --ethdebug-runtime output can only be used with --ir. Optimization is not yet supported with ethdebug, e.g. no support for --optimize / --ir-optimized yet.\n"},
 			{},
-			{"======= Debug Data (ethdebug/format/info/resources) =======", "Debug Data (ethdebug/format/program)", "/// ethdebug: enabled"},
 		},
 		{
 			{"solc", "--ethdebug-runtime", "--via-ir", "--ir-optimized", tempDir.path().string() + "/input.sol"},
+			{"Error: --ethdebug / --ethdebug-runtime output can only be used with --ir. Optimization is not yet supported with ethdebug, e.g. no support for --optimize / --ir-optimized yet.\n"},
 			{},
-			{"======= Debug Data (ethdebug/format/info/resources) =======", "Debug Data of the runtime part (ethdebug/format/program)", "/// ethdebug: enabled"},
 		},
 		{
 			{"solc", "--ethdebug", "--ethdebug-runtime", "--via-ir", "--ir-optimized", tempDir.path().string() + "/input.sol"},
+			{"Error: --ethdebug / --ethdebug-runtime output can only be used with --ir. Optimization is not yet supported with ethdebug, e.g. no support for --optimize / --ir-optimized yet.\n"},
 			{},
-			{"======= Debug Data (ethdebug/format/info/resources) =======", "Debug Data (ethdebug/format/program)", "Debug Data of the runtime part (ethdebug/format/program)", "/// ethdebug: enabled"},
 		},
 		{
 			{"solc", "--ethdebug", "--via-ir", "--ir-optimized", "--optimize", tempDir.path().string() + "/input.sol"},
+			{"Error: --ethdebug / --ethdebug-runtime output can only be used with --ir. Optimization is not yet supported with ethdebug, e.g. no support for --optimize / --ir-optimized yet.\n"},
 			{},
-			{"======= Debug Data (ethdebug/format/info/resources) =======", "Debug Data (ethdebug/format/program)", "/// ethdebug: enabled"},
 		},
 		{
 			{"solc", "--ethdebug-runtime", "--via-ir", "--ir-optimized", "--optimize", tempDir.path().string() + "/input.sol"},
+			{"Error: --ethdebug / --ethdebug-runtime output can only be used with --ir. Optimization is not yet supported with ethdebug, e.g. no support for --optimize / --ir-optimized yet.\n"},
 			{},
-			{"======= Debug Data (ethdebug/format/info/resources) =======", "Debug Data of the runtime part (ethdebug/format/program)", "/// ethdebug: enabled"},
 		},
 		{
 			{"solc", "--ethdebug", "--ethdebug-runtime", "--via-ir", "--ir-optimized", "--optimize", tempDir.path().string() + "/input.sol"},
+			{"Error: --ethdebug / --ethdebug-runtime output can only be used with --ir. Optimization is not yet supported with ethdebug, e.g. no support for --optimize / --ir-optimized yet.\n"},
 			{},
-			{"======= Debug Data (ethdebug/format/info/resources) =======", "Debug Data (ethdebug/format/program)", "Debug Data of the runtime part (ethdebug/format/program)", "/// ethdebug: enabled"},
 		},
 	};
 	for (auto const& test: tests)

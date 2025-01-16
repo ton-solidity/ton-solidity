@@ -1,1 +1,1 @@
---ethdebug --via-ir --optimize --ir-optimized
+--ethdebug --via-ir --ir

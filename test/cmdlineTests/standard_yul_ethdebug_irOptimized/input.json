@@ -5,7 +5,7 @@
 	},
 	"settings": {
 		"outputSelection": {
-			"*": {"*": ["evm.bytecode.ethdebug", "ir"]}
+			"*": {"*": ["evm.bytecode.ethdebug", "irOptimized"]}
 		}
 	}
 }

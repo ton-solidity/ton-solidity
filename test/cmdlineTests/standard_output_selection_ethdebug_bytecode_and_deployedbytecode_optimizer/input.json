@@ -11,12 +11,12 @@
  "settings": {
   "viaIR": true,
   "optimizer": {
-   "enabled": false
+   "enabled": true
   },
   "outputSelection": {
    "*": {
     "*": [
-     "evm.bytecode.ethdebug", "ir"
+     "evm.bytecode.ethdebug", "evm.deployedBytecode.ethdebug", "irOptimized"
     ]
    }
   }

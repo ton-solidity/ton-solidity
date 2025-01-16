@@ -1975,7 +1975,7 @@ BOOST_AUTO_TEST_CASE(ethdebug_debug_info_ethdebug)
 			}
 		},
 		{
-			generateStandardJson(false, Json::array({"ethdebug"}), Json::array({"irOptimized"})),
+			generateStandardJson(false, Json::array({"ethdebug"}), Json::array({"ir"})),
 			{},
 			[](const Json& result)
 			{
@@ -2007,7 +2007,7 @@ BOOST_AUTO_TEST_CASE(ethdebug_debug_info_ethdebug)
 			}
 		},
 		{
-			generateStandardJson(true, {}, Json::array({"irOptimized", "evm.bytecode.ethdebug"})),
+			generateStandardJson(true, {}, Json::array({"ir", "evm.bytecode.ethdebug"})),
 			{},
 			[](const Json& result)
 			{
@@ -2015,7 +2015,7 @@ BOOST_AUTO_TEST_CASE(ethdebug_debug_info_ethdebug)
 			}
 		},
 		{
-			generateStandardJson(true, {}, Json::array({"irOptimized", "evm.deployedBytecode.ethdebug"})),
+			generateStandardJson(true, {}, Json::array({"ir", "evm.deployedBytecode.ethdebug"})),
 			{},
 			[](const Json& result)
 			{
@@ -2023,7 +2023,7 @@ BOOST_AUTO_TEST_CASE(ethdebug_debug_info_ethdebug)
 			}
 		},
 		{
-			generateStandardJson(true, {}, Json::array({"irOptimized", "evm.bytecode.ethdebug", "evm.deployedBytecode.ethdebug"})),
+			generateStandardJson(true, {}, Json::array({"ir", "evm.bytecode.ethdebug", "evm.deployedBytecode.ethdebug"})),
 			{},
 			[](const Json& result)
 			{
@@ -2040,14 +2040,11 @@ BOOST_AUTO_TEST_CASE(ethdebug_debug_info_ethdebug)
 		},
 		{
 			generateStandardJson(true, Json::array({"ethdebug"}), Json::array({"irOptimized"}), YulCode()),
-			{},
-			[](const Json& result)
-			{
-				return result.dump().find("/// ethdebug: enabled") != std::string::npos;
-			}
+			"Optimization is not yet supported with ethdebug.",
+			{}
 		},
 		{
-			generateStandardJson(true, Json::array({"ethdebugs"}), Json::array({"irOptimized"}), YulCode()),
+			generateStandardJson(true, Json::array({"ethdebugs"}), Json::array({"ir"}), YulCode()),
 			"Invalid value in settings.debug.debugInfo.",
 			{}
 		},

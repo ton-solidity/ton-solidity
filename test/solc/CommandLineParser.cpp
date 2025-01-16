@@ -663,12 +663,6 @@ BOOST_AUTO_TEST_CASE(ethdebug)
 	BOOST_CHECK_EQUAL(commandLineOptions.compiler.outputs.ir, true);
 	BOOST_CHECK_EQUAL(commandLineOptions.output.debugInfoSelection.has_value(), true);
 	BOOST_CHECK_EQUAL(commandLineOptions.output.debugInfoSelection->ethdebug, true);
-	commandLineOptions = parseCommandLine({"solc", "contract.sol", "--debug-info", "ethdebug", "--ir-optimized"});
-	BOOST_CHECK_EQUAL(commandLineOptions.compiler.outputs.ethdebug, false);
-	BOOST_CHECK_EQUAL(commandLineOptions.compiler.outputs.ethdebugRuntime, false);
-	BOOST_CHECK_EQUAL(commandLineOptions.compiler.outputs.irOptimized, true);
-	BOOST_CHECK_EQUAL(commandLineOptions.output.debugInfoSelection.has_value(), true);
-	BOOST_CHECK_EQUAL(commandLineOptions.output.debugInfoSelection->ethdebug, true);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

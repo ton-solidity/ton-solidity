@@ -1485,15 +1485,18 @@ void CommandLineParser::processArgs()
 	);
 
 	bool incompatibleEthdebugOutputs =
-		m_options.compiler.outputs.asmJson || m_options.compiler.outputs.irAstJson || m_options.compiler.outputs.irOptimizedAstJson;
+		m_options.compiler.outputs.asmJson || m_options.compiler.outputs.irAstJson || m_options.compiler.outputs.irOptimizedAstJson ||
+		m_options.compiler.outputs.irOptimized || m_options.optimizer.optimizeYul || m_options.optimizer.optimizeEvmasm;
 
 	bool incompatibleEthdebugInputs = m_options.input.mode != InputMode::Compiler;
 
 	static std::string enableEthdebugMessage =
 		"--" + CompilerOutputs::componentName(&CompilerOutputs::ethdebug) + " / --" + CompilerOutputs::componentName(&CompilerOutputs::ethdebugRuntime);
 
-	static std::string enableIrMessage =
-		"--" + CompilerOutputs::componentName(&CompilerOutputs::ir) + " / --" + CompilerOutputs::componentName(&CompilerOutputs::irOptimized);
+	static std::string incompatibleEthdebugOptimizerMessage =
+		"--" + g_strOptimize + " / --" + CompilerOutputs::componentName(&CompilerOutputs::irOptimized);
+
+	static std::string enableIrMessage = "--" + CompilerOutputs::componentName(&CompilerOutputs::ir);
 
 	if (m_options.compiler.outputs.ethdebug || m_options.compiler.outputs.ethdebugRuntime)
 	{
@@ -1506,7 +1509,7 @@ void CommandLineParser::processArgs()
 		if (incompatibleEthdebugOutputs)
 			solThrow(
 				CommandLineValidationError,
-				enableEthdebugMessage + " output can only be used with " + enableIrMessage + "."
+				enableEthdebugMessage + " output can only be used with " + enableIrMessage + ". Optimization is not yet supported with ethdebug, e.g. no support for " + incompatibleEthdebugOptimizerMessage + " yet."
 			);
 
 		if (!m_options.output.debugInfoSelection.has_value())
@@ -1526,11 +1529,11 @@ void CommandLineParser::processArgs()
 
 	if (
 		m_options.output.debugInfoSelection.has_value() && m_options.output.debugInfoSelection->ethdebug &&
-		(!(m_options.compiler.outputs.ir || m_options.compiler.outputs.irOptimized || m_options.compiler.outputs.ethdebug || m_options.compiler.outputs.ethdebugRuntime) || incompatibleEthdebugOutputs)
+		(!(m_options.compiler.outputs.ir || m_options.compiler.outputs.ethdebug || m_options.compiler.outputs.ethdebugRuntime) || incompatibleEthdebugOutputs)
 	)
 		solThrow(
 			CommandLineValidationError,
-			"--debug-info ethdebug can only be used with " + enableIrMessage + " and/or " + enableEthdebugMessage + "."
+			"--debug-info ethdebug can only be used with " + enableIrMessage + " and/or " + enableEthdebugMessage + ". Optimization is not yet supported with ethdebug, e.g. no support for " + incompatibleEthdebugOptimizerMessage + " yet."
 		);
 
 	if (m_options.output.debugInfoSelection.has_value() && m_options.output.debugInfoSelection->ethdebug && incompatibleEthdebugInputs)
