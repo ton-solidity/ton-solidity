@@ -370,10 +370,13 @@ std::pair<ContractKind, bool> Parser::parseContractKind()
 	return std::make_pair(kind, abstract);
 }
 
-ASTPointer<Expression> Parser::parseContractStorageBaseLocationExpression()
+ASTPointer<StorageBaseLocation> Parser::parseContractStorageBaseLocation()
 {
-	solAssert(m_scanner->currentLiteral() == "layout");
-	expectToken(Token::Identifier);
+	RecursionGuard recursionGuard(*this);
+	ASTNodeFactory nodeFactory(*this);
+	// solAssert(m_scanner->currentLiteral() == "layout");
+	// expectToken(Token::Identifier);
+	solAssert(*expectIdentifierToken() == "layout");
 	if (
 		m_scanner->currentToken() != Token::Identifier ||
 		m_scanner->currentLiteral() != "at"
@@ -385,7 +388,10 @@ ASTPointer<Expression> Parser::parseContractStorageBaseLocationExpression()
 		);
 
 	advance();
-	return parseExpression();
+	nodeFactory.markEndPosition();
+	return nodeFactory.createNode<StorageBaseLocation>(
+		parseExpression()
+	);
 }
 
 ASTPointer<ContractDefinition> Parser::parseContractDefinition()
@@ -398,7 +404,7 @@ ASTPointer<ContractDefinition> Parser::parseContractDefinition()
 	std::vector<ASTPointer<InheritanceSpecifier>> baseContracts;
 	std::vector<ASTPointer<ASTNode>> subNodes;
 	std::pair<ContractKind, bool> contractKind{};
-	ASTPointer<Expression> storageBaseLocationExpression;
+	ASTPointer<StorageBaseLocation> storageBaseLocation;
 	documentation = parseStructuredDocumentation();
 	contractKind = parseContractKind();
 	std::tie(name, nameLocation) = expectIdentifierWithLocation();
@@ -425,16 +431,15 @@ ASTPointer<ContractDefinition> Parser::parseContractDefinition()
 			m_scanner->currentLiteral() == "layout"
 		)
 		{
-			if (storageBaseLocationExpression)
+			if (storageBaseLocation)
 				m_errorReporter.parserError(
 					8714_error,
 					m_scanner->currentLocation(),
-					SecondarySourceLocation().append("Another base location was defined here", storageBaseLocationExpression->location()),
+					SecondarySourceLocation().append("Another base location was defined here", storageBaseLocation->location()),
 					"Storage base location was already defined previously."
 				);
 
-			storageBaseLocationExpression = parseContractStorageBaseLocationExpression();
-			subNodes.push_back(storageBaseLocationExpression);
+			storageBaseLocation = parseContractStorageBaseLocation();
 		}
 		else
 			break;
@@ -493,7 +498,7 @@ ASTPointer<ContractDefinition> Parser::parseContractDefinition()
 		subNodes,
 		contractKind.first,
 		contractKind.second,
-		storageBaseLocationExpression
+		storageBaseLocation
 	);
 }
 
