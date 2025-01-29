@@ -261,7 +261,6 @@ protected:
 
 private:
 	bool m_invalid = false;
-
 	Assembly const* subAssemblyById(size_t _subId) const;
 
 	void encodeAllPossibleSubPathsInAssemblyTree(std::vector<size_t> _pathFromRoot = {}, std::vector<Assembly*> _assembliesOnPath = {});
@@ -287,7 +286,7 @@ private:
 	[[nodiscard]] bytes assemblePushDeployTimeAddress() const;
 	[[nodiscard]] bytes assembleTag(AssemblyItem const& _item, size_t _pos, bool _addJumpDest) const;
 
-	void updateSubAssemblyStartOffsets(std::vector<LinkerObject::SubAssembly>& _subAssemblies, size_t const _currentBytecodeSize) const;
+	void updateSubAssemblyStartOffsets(std::vector<LinkerObject::Structure>& _subAssemblies, size_t const _currentBytecodeSize) const;
 
 protected:
 	/// 0 is reserved for exception

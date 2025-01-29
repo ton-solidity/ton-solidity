@@ -7,14 +7,17 @@
   0x00
 ",
                     "bytecode": {
+                        "assemblyStructure": {
+                            "isCreation": true,
+                            "length": 1,
+                            "start": 0,
+                            "subassemblies": []
+                        },
                         "functionDebugData": {},
                         "linkReferences": {},
                         "object": "<BYTECODE REMOVED>",
                         "opcodes":"<OPCODES REMOVED>",
-                        "sourceMap":"<SOURCEMAP REMOVED>",
-                        "subAssemblyOffsets": {
-                            "subs": []
-                        }
+                        "sourceMap":"<SOURCEMAP REMOVED>"
                     },
                     "deployedBytecode": {
                         "functionDebugData": {},

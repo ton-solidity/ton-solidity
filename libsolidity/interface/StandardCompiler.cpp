@@ -237,7 +237,7 @@ bool isArtifactRequested(Json const& _outputSelection, std::string const& _file,
 std::vector<std::string> evmObjectComponents(std::string const& _objectKind)
 {
 	solAssert(_objectKind == "bytecode" || _objectKind == "deployedBytecode", "");
-	std::vector<std::string> components{"", ".object", ".opcodes", ".sourceMap", ".functionDebugData", ".generatedSources", ".linkReferences", ".subAssemblyOffsets"};
+	std::vector<std::string> components{"", ".object", ".opcodes", ".sourceMap", ".functionDebugData", ".generatedSources", ".linkReferences", ".assemblyStructure"};
 	if (_objectKind == "deployedBytecode")
 		components.push_back(".immutableReferences");
 	return util::applyMap(components, [&](auto const& _s) { return "evm." + _objectKind + _s; });
@@ -374,22 +374,22 @@ Json formatImmutableReferences(std::map<u256, evmasm::LinkerObject::ImmutableRef
 	return ret;
 }
 
-Json formatSubAssemblyOffsets(std::vector<evmasm::LinkerObject::SubAssembly> const& _subAssemblyOffsets)
+Json formatAssemblyStructure(std::vector<evmasm::LinkerObject::Structure> const& _assemblyStructure)
 {
-	Json subs = Json::array();
+	Json subassemblies = Json::array();
 
-	for (auto const& subAssembly: _subAssemblyOffsets)
+	for (auto const& subAssembly: _assemblyStructure)
 	{
-		Json subAssemblyInfo;
-		subAssemblyInfo["start"] = Json::number_unsigned_t(subAssembly.start);
-		subAssemblyInfo["length"] = Json::number_unsigned_t(subAssembly.length);
-		subAssemblyInfo["isCreation"] = Json::boolean_t(subAssembly.isCreation);
-		if (!subAssembly.subs.empty())
-			subAssemblyInfo["subs"] = formatSubAssemblyOffsets(subAssembly.subs);
-		subs.emplace_back(subAssemblyInfo);
+		Json assemblyStructure;
+		assemblyStructure["start"] = Json::number_unsigned_t(subAssembly.start);
+		assemblyStructure["length"] = Json::number_unsigned_t(subAssembly.length);
+		assemblyStructure["isCreation"] = Json::boolean_t(subAssembly.isCreation);
+		if (!subAssembly.subassemblies.empty())
+			assemblyStructure["subassemblies"] = formatAssemblyStructure(subAssembly.subassemblies);
+		subassemblies.emplace_back(assemblyStructure);
 	}
 
-	return subs;
+	return subassemblies;
 }
 
 std::optional<Json> checkKeys(Json const& _input, std::set<std::string> const& _keys, std::string const& _name)
@@ -1253,12 +1253,13 @@ Json StandardCompiler::importEVMAssembly(StandardCompiler::InputsAndSettings _in
 			creationJSON["functionDebugData"] = formatFunctionDebugData(stack.object(sourceName).functionDebugData);
 		if (evmCreationArtifactRequested("linkReferences"))
 			creationJSON["linkReferences"] = formatLinkReferences(stack.object(sourceName).linkReferences);
-		if (evmCreationArtifactRequested("subAssemblyOffsets"))
-		{
-			Json ret = Json::object();
-			ret["subs"] = formatSubAssemblyOffsets(stack.runtimeObject(sourceName).subAssemblyData);
-			creationJSON["subAssemblyOffsets"] = std::move(ret);
-		}
+		if (evmCreationArtifactRequested("assemblyStructure"))
+			creationJSON["assemblyStructure"] = {
+				{"start", 0},
+				{"length", stack.object(sourceName).bytecode.size()},
+				{"isCreation", true},
+				{"subassemblies", formatAssemblyStructure(stack.object(sourceName).subAssemblyData)}
+			};
 		evmData["bytecode"] = creationJSON;
 	}
 
@@ -1527,12 +1528,13 @@ Json StandardCompiler::compileSolidity(StandardCompiler::InputsAndSettings _inpu
 				creationJSON["linkReferences"] = formatLinkReferences(compilerStack.object(contractName).linkReferences);
 			if (evmCreationArtifactRequested("generatedSources"))
 				creationJSON["generatedSources"] = compilerStack.generatedSources(contractName, /* _runtime */ false);
-			if (evmCreationArtifactRequested("subAssemblyOffsets"))
-			{
-				Json ret = Json::object();
-				ret["subs"] = formatSubAssemblyOffsets(compilerStack.object(contractName).subAssemblyData);
-				creationJSON["subAssemblyOffsets"] = std::move(ret);
-			}
+			if (evmCreationArtifactRequested("assemblyStructure"))
+				creationJSON["assemblyStructure"] = {
+					{"start", 0},
+					{"length", compilerStack.object(contractName).bytecode.size()},
+					{"isCreation", true},
+					{"subassemblies", formatAssemblyStructure(compilerStack.object(contractName).subAssemblyData)}
+				};
 			evmData["bytecode"] = creationJSON;
 		}
 
@@ -1563,12 +1565,6 @@ Json StandardCompiler::compileSolidity(StandardCompiler::InputsAndSettings _inpu
 				deployedJSON["immutableReferences"] = formatImmutableReferences(compilerStack.runtimeObject(contractName).immutableReferences);
 			if (evmDeployedArtifactRequested("generatedSources"))
 				deployedJSON["generatedSources"] = compilerStack.generatedSources(contractName, /* _runtime */ true);
-			if (evmDeployedArtifactRequested("subAssemblyOffsets"))
-			{
-				Json ret = Json::object();
-				ret["subs"] = formatSubAssemblyOffsets(compilerStack.object(contractName).subAssemblyData);
-				deployedJSON["subAssemblyOffsets"] = std::move(ret);
-			}
 			evmData["deployedBytecode"] = deployedJSON;
 		}
 

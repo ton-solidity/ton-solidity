@@ -4,28 +4,24 @@
             "test": {
                 "evm": {
                     "bytecode": {
+                        "assemblyStructure": {
+                            "isCreation": true,
+                            "length": 130,
+                            "start": 0,
+                            "subassemblies": [
+                                {
+                                    "isCreation": false,
+                                    "length": 104,
+                                    "start": 26
+                                }
+                            ]
+                        },
                         "functionDebugData": {},
                         "generatedSources": [],
                         "linkReferences": {},
                         "object": "<BYTECODE REMOVED>",
                         "opcodes":"<OPCODES REMOVED>",
-                        "sourceMap":"<SOURCEMAP REMOVED>",
-                        "subAssemblyOffsets": {
-                            "subs": [
-                                {
-                                    "isCreation": true,
-                                    "length": 130,
-                                    "start": 0,
-                                    "subs": [
-                                        {
-                                            "isCreation": false,
-                                            "length": 104,
-                                            "start": 26
-                                        }
-                                    ]
-                                }
-                            ]
-                        }
+                        "sourceMap":"<SOURCEMAP REMOVED>"
                     }
                 }
             }

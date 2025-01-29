@@ -4,20 +4,17 @@
             "": {
                 "evm": {
                     "bytecode": {
+                        "assemblyStructure": {
+                            "isCreation": true,
+                            "length": 5,
+                            "start": 0,
+                            "subassemblies": []
+                        },
                         "functionDebugData": {},
                         "linkReferences": {},
                         "object": "<BYTECODE REMOVED>",
                         "opcodes":"<OPCODES REMOVED>",
-                        "sourceMap":"<SOURCEMAP REMOVED>",
-                        "subAssemblyOffsets": {
-                            "subs": [
-                                {
-                                    "isCreation": false,
-                                    "length": 87,
-                                    "start": 0
-                                }
-                            ]
-                        }
+                        "sourceMap":"<SOURCEMAP REMOVED>"
                     },
                     "deployedBytecode": {
                         "functionDebugData": {},

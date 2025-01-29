@@ -10,7 +10,7 @@
     "outputSelection": {
       "*": {
         "Storage": [
-          "evm.bytecode.subAssemblyOffsets"
+          "evm.bytecode.assemblyStructure"
         ]
       }
     }

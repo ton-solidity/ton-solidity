@@ -11,15 +11,18 @@
                 "evm": {
                     "assembly": "",
                     "bytecode": {
+                        "assemblyStructure": {
+                            "isCreation": true,
+                            "length": 0,
+                            "start": 0,
+                            "subassemblies": []
+                        },
                         "functionDebugData": {},
                         "generatedSources": [],
                         "linkReferences": {},
                         "object": "",
                         "opcodes": "",
-                        "sourceMap": "",
-                        "subAssemblyOffsets": {
-                            "subs": []
-                        }
+                        "sourceMap": ""
                     },
                     "deployedBytecode": {
                         "functionDebugData": {},
@@ -28,10 +31,7 @@
                         "linkReferences": {},
                         "object": "",
                         "opcodes": "",
-                        "sourceMap": "",
-                        "subAssemblyOffsets": {
-                            "subs": []
-                        }
+                        "sourceMap": ""
                     },
                     "gasEstimates": null,
                     "legacyAssembly": null,
@@ -66,15 +66,18 @@
                 "evm": {
                     "assembly": "",
                     "bytecode": {
+                        "assemblyStructure": {
+                            "isCreation": true,
+                            "length": 0,
+                            "start": 0,
+                            "subassemblies": []
+                        },
                         "functionDebugData": {},
                         "generatedSources": [],
                         "linkReferences": {},
                         "object": "",
                         "opcodes": "",
-                        "sourceMap": "",
-                        "subAssemblyOffsets": {
-                            "subs": []
-                        }
+                        "sourceMap": ""
                     },
                     "deployedBytecode": {
                         "functionDebugData": {},
@@ -83,10 +86,7 @@
                         "linkReferences": {},
                         "object": "",
                         "opcodes": "",
-                        "sourceMap": "",
-                        "subAssemblyOffsets": {
-                            "subs": []
-                        }
+                        "sourceMap": ""
                     },
                     "gasEstimates": null,
                     "legacyAssembly": null,

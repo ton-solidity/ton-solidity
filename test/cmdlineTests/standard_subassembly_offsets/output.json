@@ -4,29 +4,25 @@
             "Storage": {
                 "evm": {
                     "bytecode": {
-                        "subAssemblyOffsets": {
-                            "subs": [
+                        "assemblyStructure": {
+                            "isCreation": true,
+                            "length": 1787,
+                            "start": 0,
+                            "subassemblies": [
+                                {
+                                    "isCreation": false,
+                                    "length": 780,
+                                    "start": 877
+                                },
                                 {
                                     "isCreation": true,
-                                    "length": 1787,
-                                    "start": 0,
-                                    "subs": [
+                                    "length": 130,
+                                    "start": 1657,
+                                    "subassemblies": [
                                         {
                                             "isCreation": false,
-                                            "length": 780,
-                                            "start": 1007
-                                        },
-                                        {
-                                            "isCreation": true,
-                                            "length": 130,
-                                            "start": 1657,
-                                            "subs": [
-                                                {
-                                                    "isCreation": false,
-                                                    "length": 104,
-                                                    "start": 1683
-                                                }
-                                            ]
+                                            "length": 104,
+                                            "start": 26
                                         }
                                     ]
                                 }
