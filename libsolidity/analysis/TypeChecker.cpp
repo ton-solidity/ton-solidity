@@ -238,9 +238,18 @@ bool TypeChecker::visit(ImportDirective const&)
 
 void TypeChecker::endVisit(ContractDefinition const& _contract)
 {
+	if ((_contract.isLibrary() || _contract.abstract()) && _contract.storageLayoutSpecifier())
+	m_errorReporter.typeError(
+		7587_error,
+		_contract.storageLayoutSpecifier()->location(),
+		"Storage base location cannot be specified for abstract contracts or libraries"
+	);
+
 	for (auto const* ancestorContract: _contract.annotation().linearizedBaseContracts | ranges::views::reverse)
-		if (*ancestorContract != _contract && ancestorContract->storageLayoutSpecifier())
-		{
+	{
+		if (*ancestorContract == _contract)
+			continue;
+		if (ancestorContract->storageLayoutSpecifier())
 			m_errorReporter.typeError(
 				8894_error,
 				_contract.location(),
@@ -250,15 +259,25 @@ void TypeChecker::endVisit(ContractDefinition const& _contract)
 				),
 				"Storage base location can only be specified in the most derived contract."
 			);
-			return;
-		}
 
-	if ((_contract.isLibrary() || _contract.abstract()) && _contract.storageLayoutSpecifier())
-	m_errorReporter.typeError(
-		7587_error,
-		_contract.storageLayoutSpecifier()->location(),
-		"Storage base location cannot be specified for abstract contracts or libraries"
-	);
+		if (
+			auto derivedContract = ancestorContract->annotation().derivedContractSpecifyingStorageLayout;
+			derivedContract && _contract.storageLayoutSpecifier()
+		)
+			m_errorReporter.typeError(
+				2031_error,
+				_contract.location(),
+				SecondarySourceLocation().append(
+					"Storage base location was also specified by another derived contract here.",
+					derivedContract->location()
+				),
+				"Conflicting storage layout specifications:"
+				"Storage layout for base contract \'" + ancestorContract->name() + "\' was also specified by another contract which derives from it."
+			);
+
+		if (_contract.storageLayoutSpecifier() && !m_errorReporter.hasErrors())
+			ancestorContract->annotation().derivedContractSpecifyingStorageLayout = &_contract;
+	}
 }
 
 void TypeChecker::endVisit(StorageLayoutSpecifier const& _storageLayoutSpecifier)
