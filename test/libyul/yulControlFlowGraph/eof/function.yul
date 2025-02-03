@@ -19,7 +19,7 @@
     h(y)
 }
 // ====
-// bytecodeFormat: legacy
+// bytecodeFormat: >=EOFv1
 // ----
 // digraph CFG {
 // nodesep=0.7;
@@ -28,7 +28,7 @@
 // Entry [label="Entry"];
 // Entry -> Block0;
 // Block0 [label="\
-// i: [ RET[i] ] => [ TMP[i, 0] TMP[i, 1] ]\l\
+// i: [ ] => [ TMP[i, 0] TMP[i, 1] ]\l\
 // Assignment(x, y): [ TMP[i, 0] TMP[i, 1] ] => [ x y ]\l\
 // h: [ x ] => [ ]\l\
 // "];
@@ -49,7 +49,7 @@
 // FunctionEntry_h_2 [label="function h(x)"];
 // FunctionEntry_h_2 -> Block2;
 // Block2 [label="\
-// f: [ RET[f] 0x00 x ] => [ TMP[f, 0] ]\l\
+// f: [ 0x00 x ] => [ TMP[f, 0] ]\l\
 // h: [ TMP[f, 0] ] => [ ]\l\
 // "];
 // Block2Exit [label="Terminated"];

@@ -4,14 +4,14 @@
     let c := 2
     sstore(a, b)
     mstore(900, 7)
-    let d := staticcall(10000, 10, 0, 200, 0, 200)
+    let d := extstaticcall(10, 0, 200)
     sstore(add(a, 1), mload(900))
     // Main test objective: replace this sload.
     mstore(0, sload(a))
 }
 // ====
 // EVMVersion: >=byzantium
-// bytecodeFormat: legacy
+// bytecodeFormat: >=EOFv1
 // ----
 // step: loadResolver
 //
@@ -21,11 +21,9 @@
 //         let b := 1
 //         sstore(a, b)
 //         let _1 := 7
-//         let _2 := 900
-//         mstore(_2, _1)
-//         let _3 := 200
-//         pop(staticcall(10000, 10, a, _3, a, _3))
-//         sstore(1, mload(_2))
+//         mstore(900, _1)
+//         pop(extstaticcall(10, a, 200))
+//         sstore(1, _1)
 //         mstore(a, b)
 //     }
 // }
