@@ -9,7 +9,7 @@
                             "contract": "fileA:A",
                             "label": "x",
                             "offset": 0,
-                            "slot": "0",
+                            "slot": "42",
                             "type": "t_uint256"
                         },
                         {
@@ -17,7 +17,7 @@
                             "contract": "fileA:A",
                             "label": "y",
                             "offset": 0,
-                            "slot": "1",
+                            "slot": "43",
                             "type": "t_uint256"
                         },
                         {
@@ -25,7 +25,7 @@
                             "contract": "fileA:A",
                             "label": "z",
                             "offset": 0,
-                            "slot": "2",
+                            "slot": "44",
                             "type": "t_int8"
                         }
                     ],
