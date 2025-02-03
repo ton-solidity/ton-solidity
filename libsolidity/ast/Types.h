@@ -25,6 +25,7 @@
 
 #include <libsolidity/ast/ASTEnums.h>
 #include <libsolidity/ast/ASTForward.h>
+#include <libsolidity/ast/ASTUtils.h>
 #include <libsolidity/parsing/Token.h>
 #include <liblangutil/Exceptions.h>
 

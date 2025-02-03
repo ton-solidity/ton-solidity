@@ -2175,12 +2175,7 @@ std::vector<std::tuple<VariableDeclaration const*, u256, unsigned>> ContractType
 	StorageOffsets offsets;
 	u256 startSlot = 0;
 	if (_location == DataLocation::Storage)
-	{
-		if (m_contract.storageLayoutSpecifier())
-			startSlot = m_contract.storageLayoutSpecifier()->annotation().value;
-		else if (auto derived = m_contract.annotation().derivedContractSpecifyingStorageLayout)
-			startSlot = derived->storageLayoutSpecifier()->annotation().value;
-	}
+		startSlot = storageBaseLocationValue(m_contract);
 	offsets.computeOffsets(types, startSlot);
 
 	std::vector<std::tuple<VariableDeclaration const*, u256, unsigned>> variablesAndOffsets;
