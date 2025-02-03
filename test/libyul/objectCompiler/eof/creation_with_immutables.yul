@@ -27,7 +27,7 @@ object "a" {
 }
 
 // ====
-// EVMVersion: >=prague
+// EVMVersion: >=osaka
 // bytecodeFormat: >=EOFv1
 // ----
 // Assembly:

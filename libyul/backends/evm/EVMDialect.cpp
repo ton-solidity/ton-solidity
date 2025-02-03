@@ -155,13 +155,13 @@ std::set<std::string, std::less<>> createReservedIdentifiers(langutil::EVMVersio
 
 	auto eofIdentifiersException = [&](evmasm::Instruction _instr) -> bool
 	{
-		solAssert(!_eofVersion.has_value() || (*_eofVersion == 1 && _evmVersion == langutil::EVMVersion::prague()));
+		solAssert(!_eofVersion.has_value() || (*_eofVersion == 1 && _evmVersion.supportsEOF()));
 		if (_eofVersion.has_value())
 			// For EOF every instruction is reserved identifier.
 			return false;
 		else
-			return langutil::EVMVersion::prague().hasOpcode(_instr, 1) &&
-				!langutil::EVMVersion::prague().hasOpcode(_instr, std::nullopt);
+			return langutil::EVMVersion::osaka().hasOpcode(_instr, 1) &&
+				!langutil::EVMVersion::osaka().hasOpcode(_instr, std::nullopt);
 	};
 
 	std::set<std::string, std::less<>> reserved;

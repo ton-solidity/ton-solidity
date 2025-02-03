@@ -8,7 +8,7 @@ object "a" {
     }
 
 // ====
-// EVMVersion: >=prague
+// EVMVersion: >=osaka
 // bytecodeFormat: >=EOFv1
 // ----
 // TypeError 5859: (55-58): Function expects number literal.
