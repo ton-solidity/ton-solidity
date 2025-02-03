@@ -408,10 +408,11 @@ void Assembly::assemblyStream(
 		f.feed(i, _debugInfoSelection);
 	f.flush();
 
+	std::string const codeSectionPrefix = _prefix + "    ";
 	for (size_t i = 1; i < m_codeSections.size(); ++i)
 	{
 		_out << std::endl << _prefix << "code_section_" << i << ": assembly {\n";
-		Functionalizer codeSectionF(_out, _prefix + "    ", _sourceCodes, *this);
+		Functionalizer codeSectionF(_out, codeSectionPrefix, _sourceCodes, *this);
 		for (auto const& item: m_codeSections[i].items)
 			codeSectionF.feed(item, _debugInfoSelection);
 		codeSectionF.flush();
