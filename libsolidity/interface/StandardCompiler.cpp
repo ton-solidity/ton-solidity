@@ -374,22 +374,36 @@ Json formatImmutableReferences(std::map<u256, evmasm::LinkerObject::ImmutableRef
 	return ret;
 }
 
-Json formatAssemblyStructure(std::vector<evmasm::LinkerObject::Structure> const& _assemblyStructure)
+Json formatAssemblyStructureRecursiveHelper(std::vector<evmasm::LinkerObject::Structure> const& _assemblyStructure)
 {
-	Json subassemblies = Json::array();
-
+	Json subAssemblies = Json::array();
 	for (auto const& subAssembly: _assemblyStructure)
 	{
-		Json assemblyStructure;
-		assemblyStructure["start"] = Json::number_unsigned_t(subAssembly.start);
-		assemblyStructure["length"] = Json::number_unsigned_t(subAssembly.length);
-		assemblyStructure["isCreation"] = Json::boolean_t(subAssembly.isCreation);
-		if (!subAssembly.subassemblies.empty())
-			assemblyStructure["subassemblies"] = formatAssemblyStructure(subAssembly.subassemblies);
-		subassemblies.emplace_back(assemblyStructure);
+		Json assemblyStructure = {
+			{"start", Json::number_unsigned_t(_assemblyStructure[0].start)},
+			{"length", Json::number_unsigned_t(_assemblyStructure[0].length)},
+			{"isCreation", Json::boolean_t(_assemblyStructure[0].isCreation)}
+		};
+		if (!subAssembly.subAssemblies.empty())
+			assemblyStructure["subAssemblies"] = formatAssemblyStructureRecursiveHelper(subAssembly.subAssemblies);
+		subAssemblies.emplace_back(assemblyStructure);
 	}
+	return subAssemblies;
+}
 
-	return subassemblies;
+Json formatAssemblyStructure(std::vector<evmasm::LinkerObject::Structure> const& _assemblyStructure)
+{
+	Json assemblyStructure = Json::object();
+
+	if (!_assemblyStructure.empty())
+		assemblyStructure = {
+			{"start", Json::number_unsigned_t(_assemblyStructure[0].start)},
+			{"length", Json::number_unsigned_t(_assemblyStructure[0].length)},
+			{"isCreation", Json::boolean_t(_assemblyStructure[0].isCreation)},
+			{"subAssemblies", formatAssemblyStructureRecursiveHelper(_assemblyStructure[0].subAssemblies)}
+		};
+
+	return assemblyStructure;
 }
 
 std::optional<Json> checkKeys(Json const& _input, std::set<std::string> const& _keys, std::string const& _name)
@@ -1254,12 +1268,7 @@ Json StandardCompiler::importEVMAssembly(StandardCompiler::InputsAndSettings _in
 		if (evmCreationArtifactRequested("linkReferences"))
 			creationJSON["linkReferences"] = formatLinkReferences(stack.object(sourceName).linkReferences);
 		if (evmCreationArtifactRequested("assemblyStructure"))
-			creationJSON["assemblyStructure"] = {
-				{"start", 0},
-				{"length", stack.object(sourceName).bytecode.size()},
-				{"isCreation", true},
-				{"subassemblies", formatAssemblyStructure(stack.object(sourceName).subAssemblyData)}
-			};
+			creationJSON["assemblyStructure"] = formatAssemblyStructure(stack.object(sourceName).subAssemblyData);
 		evmData["bytecode"] = creationJSON;
 	}
 
@@ -1529,12 +1538,7 @@ Json StandardCompiler::compileSolidity(StandardCompiler::InputsAndSettings _inpu
 			if (evmCreationArtifactRequested("generatedSources"))
 				creationJSON["generatedSources"] = compilerStack.generatedSources(contractName, /* _runtime */ false);
 			if (evmCreationArtifactRequested("assemblyStructure"))
-				creationJSON["assemblyStructure"] = {
-					{"start", 0},
-					{"length", compilerStack.object(contractName).bytecode.size()},
-					{"isCreation", true},
-					{"subassemblies", formatAssemblyStructure(compilerStack.object(contractName).subAssemblyData)}
-				};
+				creationJSON["assemblyStructure"] = formatAssemblyStructure(compilerStack.object(contractName).subAssemblyData);
 			evmData["bytecode"] = creationJSON;
 		}
 

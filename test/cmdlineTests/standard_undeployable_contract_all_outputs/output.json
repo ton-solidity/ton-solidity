@@ -11,12 +11,7 @@
                 "evm": {
                     "assembly": "",
                     "bytecode": {
-                        "assemblyStructure": {
-                            "isCreation": true,
-                            "length": 0,
-                            "start": 0,
-                            "subassemblies": []
-                        },
+                        "assemblyStructure": {},
                         "functionDebugData": {},
                         "generatedSources": [],
                         "linkReferences": {},
@@ -66,12 +61,7 @@
                 "evm": {
                     "assembly": "",
                     "bytecode": {
-                        "assemblyStructure": {
-                            "isCreation": true,
-                            "length": 0,
-                            "start": 0,
-                            "subassemblies": []
-                        },
+                        "assemblyStructure": {},
                         "functionDebugData": {},
                         "generatedSources": [],
                         "linkReferences": {},

@@ -6,12 +6,12 @@
                     "bytecode": {
                         "assemblyStructure": {
                             "isCreation": true,
-                            "length": 130,
+                            "length": 129,
                             "start": 0,
-                            "subassemblies": [
+                            "subAssemblies": [
                                 {
                                     "isCreation": false,
-                                    "length": 104,
+                                    "length": 103,
                                     "start": 26
                                 }
                             ]

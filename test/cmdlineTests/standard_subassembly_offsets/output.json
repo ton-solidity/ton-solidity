@@ -6,22 +6,22 @@
                     "bytecode": {
                         "assemblyStructure": {
                             "isCreation": true,
-                            "length": 1787,
+                            "length": 1785,
                             "start": 0,
-                            "subassemblies": [
+                            "subAssemblies": [
                                 {
                                     "isCreation": false,
-                                    "length": 780,
+                                    "length": 779,
                                     "start": 877
                                 },
                                 {
-                                    "isCreation": true,
-                                    "length": 130,
-                                    "start": 1657,
-                                    "subassemblies": [
+                                    "isCreation": false,
+                                    "length": 779,
+                                    "start": 877,
+                                    "subAssemblies": [
                                         {
                                             "isCreation": false,
-                                            "length": 104,
+                                            "length": 103,
                                             "start": 26
                                         }
                                     ]

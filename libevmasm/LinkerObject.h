@@ -62,7 +62,7 @@ struct LinkerObject
 		size_t start;
 		size_t length;
 		bool isCreation;
-		std::vector<Structure> subassemblies {};
+		std::vector<Structure> subAssemblies {};
 	};
 
 	std::vector<Structure> subAssemblyData;
