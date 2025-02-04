@@ -53,7 +53,6 @@ ASTPointer<T> ASTJsonImporter::nullOrCast(Json const& _json)
 		return std::dynamic_pointer_cast<T>(convertJsonToASTNode(_json));
 }
 
-//nullOrNodeWithID()
 
 
 // ============ public ===========================
@@ -82,7 +81,7 @@ ASTPointer<T> ASTJsonImporter::createASTNode(Json const& _node, Args&&... _args)
 
 	int64_t id = static_cast<Json::number_integer_t>(_node["id"]);
 
-	astAssert(m_usedIDs.insert(id).second, "Found duplicate node ID!" + std::to_string(id));
+	astAssert(m_usedIDs.insert(id).second, "Found duplicate node ID!");
 
 	auto n = std::make_shared<T>(
 		id,
