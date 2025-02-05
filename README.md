@@ -1,3 +1,12 @@
+# TON Solidity
+
+Solidity language compiler for TON (The Open Network) blockchain.
+
+* <i>Project status:</i> Work in progress.
+* <i>Home page:</i> https://www.ton-solidity.org/
+
+# Upstream Ethereum tag v0.8.28 content is below.
+
 # The Solidity Contract-Oriented Programming Language
 
 [![Matrix Chat](https://img.shields.io/badge/Matrix%20-chat-brightgreen?style=plastic&logo=matrix)](https://matrix.to/#/#ethereum_solidity:gitter.im)
