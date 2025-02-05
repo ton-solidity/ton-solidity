@@ -57,12 +57,14 @@ emscripten_build/
 # IDE files
 /.idea/
 /.vscode/
+/*.code-workspace
 /browse.VC.db
 /CMakeLists.txt.user
 /CMakeSettings.json
 /.vs
 /.cproject
 /.project
+
 
 # OS specific local files
 .DS_Store
