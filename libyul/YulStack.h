@@ -67,7 +67,7 @@ class YulStack: public langutil::CharStreamProvider
 {
 public:
 	using Language = yul::Language;
-	enum class Machine { EVM };
+	enum class Machine { EVM, TVM };
 	enum State {
 		Empty,
 		Parsed,
